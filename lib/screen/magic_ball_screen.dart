@@ -44,6 +44,22 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
       body: Stack(
         alignment: Alignment.center,
         children: [
+          SizedBox.expand(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black,
+                    Theme.of(context).colorScheme.background,
+                    Theme.of(context).colorScheme.background,
+                    Colors.black,
+                  ],
+                ),
+              ),
+            ),
+          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(48.0),
