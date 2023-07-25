@@ -1,10 +1,24 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:surf_practice_magic_ball/app_scope.dart';
+import 'package:surf_practice_magic_ball/data/api/eightball_api.dart';
+import 'package:surf_practice_magic_ball/data/repository/eightball_repository.dart';
+import 'package:surf_practice_magic_ball/domain/service/fortune_service.dart';
+import 'package:surf_practice_magic_ball/domain/service/magic_ball_service.dart';
 import 'package:surf_practice_magic_ball/screen/magic_ball_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  final service = _initService();
+
+  runApp(
+    Provider(
+      create: (_) => AppScope(service),
+      child: const MyApp(),
+    ),
+  );
 }
 
 /// App,s main widget.
@@ -14,12 +28,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appScope = context.read<AppScope>();
+
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorSchemeSeed: Colors.indigo,
         useMaterial3: true,
       ),
-      home: const MagicBallScreen(),
+      darkTheme: ThemeData(
+        colorSchemeSeed: Colors.indigo,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      home: MagicBallScreen(service: appScope.fortuneService),
     );
   }
+}
+
+FortuneService _initService() {
+  final dio = Dio();
+  final api = EightballApi(dio);
+  final repo = EightballRepository(api: api);
+  return MagicBallService(repository: repo);
 }
