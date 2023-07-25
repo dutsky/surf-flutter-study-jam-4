@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shake/shake.dart';
 import 'package:surf_practice_magic_ball/domain/entity/fortune.dart';
 import 'package:surf_practice_magic_ball/domain/service/fortune_service.dart';
 import 'package:surf_practice_magic_ball/screen/widgets/kirkle.dart';
@@ -14,11 +15,21 @@ class MagicBallScreen extends StatefulWidget {
 
 class _MagicBallScreenState extends State<MagicBallScreen> {
   late final ValueNotifier<Fortune?> fortune;
+  late final ShakeDetector shakeDetector;
 
   @override
   void initState() {
     super.initState();
     fortune = ValueNotifier(null);
+    shakeDetector = ShakeDetector.autoStart(
+      onPhoneShake: _askReading,
+    );
+  }
+
+  @override
+  void dispose() {
+    shakeDetector.stopListening();
+    super.dispose();
   }
 
   @override
