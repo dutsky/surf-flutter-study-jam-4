@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shake/shake.dart';
 import 'package:surf_practice_magic_ball/domain/entity/fortune.dart';
 import 'package:surf_practice_magic_ball/domain/service/fortune_service.dart';
+import 'package:surf_practice_magic_ball/screen/magic_ball_strings.dart';
 import 'package:surf_practice_magic_ball/screen/widgets/kirkle.dart';
 
 class MagicBallScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class MagicBallScreen extends StatefulWidget {
 class _MagicBallScreenState extends State<MagicBallScreen> {
   late final ValueNotifier<Fortune?> fortune;
   late final ShakeDetector shakeDetector;
+  late final bool isDesktop;
 
   @override
   void initState() {
@@ -24,6 +27,9 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
     shakeDetector = ShakeDetector.autoStart(
       onPhoneShake: _askReading,
     );
+    isDesktop = (defaultTargetPlatform == TargetPlatform.linux) ||
+        (defaultTargetPlatform == TargetPlatform.macOS) ||
+        (defaultTargetPlatform == TargetPlatform.windows);
   }
 
   @override
@@ -55,11 +61,13 @@ class _MagicBallScreenState extends State<MagicBallScreen> {
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 24.0,
             child: Text(
-              'Нажмите или потрясите телефон',
-              style: TextStyle(
+              isDesktop
+                  ? MagicBallStrings.press
+                  : MagicBallStrings.shakeOrPress,
+              style: const TextStyle(
                 fontSize: 16.0,
                 color: Colors.blueGrey,
                 fontStyle: FontStyle.italic,
