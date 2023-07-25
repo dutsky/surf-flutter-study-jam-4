@@ -59,7 +59,7 @@ class Kirkle extends StatelessWidget {
             colors: <Color>[Colors.black, color],
           ).createShader(bounds),
           child: const CircleAvatar(
-            backgroundImage: AssetImage('stars.jpg'),
+            backgroundImage: AssetImage('assets/stars.jpg'),
             radius: double.infinity,
           ),
         ),
