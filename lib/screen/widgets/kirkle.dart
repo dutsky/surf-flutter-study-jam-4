@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:surf_practice_magic_ball/screen/magic_ball_strings.dart';
 
 const _errorColor = Colors.redAccent;
 const _answerColor = Colors.indigo;
@@ -29,11 +30,26 @@ class Kirkle extends StatelessWidget {
       );
 
   /// Стейт ошибки кругляша.
-  factory Kirkle.error() => const Kirkle._(
+  factory Kirkle.error() => Kirkle._(
         color: _errorColor,
-        child: Icon(
-          Icons.error,
-          color: _errorColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: _errorColor,
+              size: 48.0,
+            ),
+            Text(
+              MagicBallStrings.error,
+              style: const TextStyle(
+                color: _errorColor,
+                fontSize: 24.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       );
 
